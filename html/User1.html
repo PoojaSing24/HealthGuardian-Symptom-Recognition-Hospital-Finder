@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Page</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .container {
+            margin: 20px auto;
+            max-width: 1000px;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .button {
+            padding: 10px 10px;
+            margin: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .button-next {
+            background-color: #4CAF50; /* Green */
+            color: white;
+        }
+        .button-previous {
+            background-color: #f44336; /* Red */
+            color: white;
+        }
+        .button-show-appointment {
+            background-color: #008CBA; /* Blue */
+            color: white;
+        }
+        .button:hover {
+            opacity: 0.8;
+        }
+        .info-section {
+            margin: 20px 0;
+        }
+        .info-section h2 {
+            color: #333;
+            font-size: 24px; /* Increase font size */
+        }
+        .info-section p {
+            color: #666;
+        }
+        .form-group {
+            margin-bottom: 10px;
+        }
+        .form-group label {
+            display: inline-block;
+            width: 150px;
+            font-weight: bold;
+        }
+        .form-group input {
+            width: calc(100% - 160px);
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 18px; 
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            font-size: 10px; 
+
+        }
+        th {
+            background-color: #f4f4f4;
+            font-size: 12px; 
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to HealthGuardian</h1>
+    </header>
+    <div class="container">
+        <h1>Personal Information</h1>
+        <div class="info-section">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" value="{{ username }}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" value="{{ name }}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="{{ email }}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="text" id="age" name="age" value="{{ age }}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender:</label>
+                <input type="text" id="gender" name="gender" value="{{ gender }}" readonly>
+            </div>
+        </div>
+        <div class="info-section">
+            <h2>Upcoming Appointments -</h2>
+            <table id="appointment-table">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Doctor</th>
+                        <th>Disease</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="button-container">
+            <button class="button button-previous" onclick="previousAction()">Previous</button>
+            <button class="button button-next" onclick="nextAction()">Next</button>
+            <button class="button button-show-appointment" onclick="showAppointment()">Show Appointment</button>
+        </div>
+    </div>
+
+    <script>
+        function previousAction() {
+            window.location.href = 'login';
+        }
+
+        function nextAction() {
+            window.location.href = 'symptoms';
+        }
+
+        function showAppointment() {
+            const username = document.getElementById('username').value;
+
+            fetch('/appointments', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username: username }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                const appointmentTableBody = document.querySelector('#appointment-table tbody');
+                appointmentTableBody.innerHTML = '';
+
+                if (data.appointments.length === 0) {
+                    const row = document.createElement('tr');
+                    const cell = document.createElement('td');
+                    cell.colSpan = 9;
+                    cell.textContent = 'No appointments found.';
+                    row.appendChild(cell);
+                    appointmentTableBody.appendChild(row);
+                } else {
+                    data.appointments.forEach(appointment => {
+                        const row = document.createElement('tr');
+                        
+                        const usernameCell = document.createElement('td');
+                        usernameCell.textContent = appointment.username;
+                        row.appendChild(usernameCell);
+
+                        const emailCell = document.createElement('td');
+                        emailCell.textContent = appointment.email;
+                        row.appendChild(emailCell);
+
+                        const nameCell = document.createElement('td');
+                        nameCell.textContent = appointment.name;
+                        row.appendChild(nameCell);
+
+                        const ageCell = document.createElement('td');
+                        ageCell.textContent = appointment.age;
+                        row.appendChild(ageCell);
+
+                        const genderCell = document.createElement('td');
+                        genderCell.textContent = appointment.gender;
+                        row.appendChild(genderCell);
+
+                        const dateCell = document.createElement('td');
+                        dateCell.textContent = appointment.date;
+                        row.appendChild(dateCell);
+
+                        const timeCell = document.createElement('td');
+                        timeCell.textContent = appointment.time;
+                        row.appendChild(timeCell);
+
+                        const doctorCell = document.createElement('td');
+                        doctorCell.textContent = appointment.doctor_name;
+                        row.appendChild(doctorCell);
+
+                        const diseaseCell = document.createElement('td');
+                        diseaseCell.textContent = appointment.disease_name;
+                        row.appendChild(diseaseCell);
+
+                        appointmentTableBody.appendChild(row);
+                    });
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
