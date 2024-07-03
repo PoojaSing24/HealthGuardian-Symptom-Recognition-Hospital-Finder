@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hospital Name Near By Me</title>
+    <style>
+        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://static.vecteezy.com/system/resources/previews/000/245/758/non_2x/abstract-blue-medical-background-with-wave-vector.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 800px;
+            text-align: center;
+            margin-top: 0; 
+            width: 100%;
+        }
+
+        .hospital-image {
+            width: 100px; 
+            height: auto; 
+            margin-top: 20px;
+        }
+
+        h1 {
+            margin: 10px 0 20px;
+            color: #007bff;
+        }
+
+        .form-container {
+            text-align: center;
+            width: 100%;
+        }
+
+        #addressInput {
+            width: calc(100% - 40px);
+            padding: 10px; 
+            box-sizing: border-box;
+            margin-bottom: 15px;
+            font-size: 12px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        .button {
+            padding: 10px 10px;
+            background-color: #007bff; 
+            color: #fff; 
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 45%;
+            font-size: 15px;
+        }
+
+        .button:hover {
+            background-color: #0056b3; 
+        }
+
+        .hospital-list-row {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .hospital-list-item {
+            display: inline-block;
+            width: 48%;
+            text-align: left;
+            padding: 10px 10px;
+            font-size: 14px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+
+        #hospitalList {
+            width: 100%;
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+        
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+        
+    </style>
+</head>
+<body>
+    <button id="backBtn" class="back-button">Back</button>
+    <div class="container">
+        <img src="https://clipground.com/images/hospital-sign-clipart-9.png" alt="Hospital Image" class="hospital-image">
+        <h1>NearBy Hospitals</h1>
+        <div class="form-container">
+            <form id="addressForm">
+                <label for="addressInput" style="display: inline-block; margin-right: 10px;">Enter your address:</label>
+                <input type="text" id="addressInput" placeholder="Type your address here" required style="display: inline-block; width: 500px;"/>
+                <div class="button-container">
+                    <button type="button" id="showHospitalsBtn" class="button">Near Hospitals</button>
+                    <button type="button" id="nearHospitalsByDiseaseBtn" class="button">Disease-oriented Hospitals</button>
+                </div>
+            </form>
+            <div id="hospitalList"></div>
+            <div id="noHospitalsMessage" style="display: none;">No hospitals found nearby.</div>
+        </div>
+    </div>
+
+    <script>
+        //empty aaray to store hospital names 
+        let showHospitalsList = [];
+        let diseaseHospitalsList = [];
+    
+        
+        //store list of  hospital name in seession storage
+        function storeHospitalLists() {
+            sessionStorage.setItem('showHospitalsList', JSON.stringify(showHospitalsList));
+            sessionStorage.setItem('diseaseHospitalsList', JSON.stringify(diseaseHospitalsList));
+        }
+    
+        //fetch to hospital lists from session
+        function retrieveHospitalLists() {
+            const storedShowHospitals = sessionStorage.getItem('showHospitalsList');
+            const storedDiseaseHospitals = sessionStorage.getItem('diseaseHospitalsList');
+            
+            showHospitalsList = storedShowHospitals ? JSON.parse(storedShowHospitals) : [];
+            diseaseHospitalsList = storedDiseaseHospitals ? JSON.parse(storedDiseaseHospitals) : [];
+            
+            //display updated list
+            updateHospitalList();
+        }
+    
+        //update the hospital list display on the page
+        function updateHospitalList() {
+            const hospitalList = document.getElementById('hospitalList');
+            hospitalList.innerHTML = ''; //ceare prevoius list
+
+
+        noHospitalsMessage.style.display = 'none'; // Hide the message
+            
+        //select length of two list
+            const maxLength = Math.max(showHospitalsList.length, diseaseHospitalsList.length);
+            for (let i = 0; i < maxLength; i++) {
+                const row = document.createElement('div');
+                row.classList.add('hospital-list-row');
+    
+                // add hospital name to the row
+                const showHospitalItem = document.createElement('span');
+                showHospitalItem.classList.add('hospital-list-item');
+                showHospitalItem.textContent = showHospitalsList[i] || '';
+                showHospitalItem.addEventListener('click', () => {
+                    if (showHospitalsList[i]) {
+                        window.location.href = `/hospital_details?name=${encodeURIComponent(showHospitalsList[i])}`;
+                    }
+                });
+                row.appendChild(showHospitalItem);
+    
+                // Create and add the disease hospital item to the row
+                const diseaseHospitalItem = document.createElement('span');
+                diseaseHospitalItem.classList.add('hospital-list-item');
+                diseaseHospitalItem.textContent = diseaseHospitalsList[i] ? diseaseHospitalsList[i].h_name : '';
+                diseaseHospitalItem.addEventListener('click', () => {
+                    if (diseaseHospitalsList[i]) {
+                        window.location.href = `/hospital_details_disease?name=${encodeURIComponent(diseaseHospitalsList[i].h_name)}`;
+                    }
+                });
+                row.appendChild(diseaseHospitalItem);
+    
+                hospitalList.appendChild(row);
+            }
+        }
+
+    
+        //for the 'Find Hospitals by Disease' button
+        document.getElementById('nearHospitalsByDiseaseBtn').addEventListener('click', function() {
+            const address = document.getElementById('addressInput').value.trim();
+            fetch('/nearby_hospitals_symptoms', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ address: address }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    diseaseHospitalsList = [data.error];
+                } else {
+                    diseaseHospitalsList = data['nearby_hospitals'] || ['No hospitals found for the specified disease'];
+                }
+
+                // Store updated lists and update the display
+                storeHospitalLists();
+                updateHospitalList();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    
+        //for the 'Show Hospitals' button
+        document.getElementById('showHospitalsBtn').addEventListener('click', function() {
+            const address = document.getElementById('addressInput').value.trim();
+            fetch('/nearby_hospitals', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ address: address }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    showHospitalsList = [data.error];
+                } else {
+                    showHospitalsList = data['nearby_hospitals'] || ['No hospitals found near your address'];
+                }
+                // Store updated lists and update the display
+                storeHospitalLists();
+                updateHospitalList();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    
+        //to retrieve stored hospital lists
+        //window.addEventListener('load', retrieveHospitalLists);
+        
+        //open disease,html
+        document.getElementById("backBtn").addEventListener("click", function() {
+            window.location.href = '/symptoms';
+        });
+    </script>
+    
+    
+</body>
+</html>
