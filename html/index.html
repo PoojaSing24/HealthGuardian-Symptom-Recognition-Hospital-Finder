@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthGuardian</title>
+<style>
+    body {
+        font-family: Arial, sans-serif; 
+        margin: 0;
+        padding: 0;  
+        background-color: #f0f0f0;  /*gray*/
+        font-size: 18px;
+    }
+
+    .background {
+        background-image: url('https://wallpaperaccess.com/full/4112935.png');
+        height: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;   /*white*/
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex; 
+        flex-direction: column; /* Arrange items vertically */
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .content {
+        display: flex; 
+        justify-content: space-between; 
+        align-items: flex-start; 
+    }
+
+    .left {
+        width: 40%; 
+    }
+
+    .right {
+        width: 50%; 
+    }
+
+    h1 {
+        color: #333;  /*dark gray color*/
+        margin-top: 0; 
+    }
+
+    .button-container {
+        margin-top: auto; 
+        text-align: right; 
+    }
+
+    .button {
+        display: inline-block;
+        padding: 10px 10px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.5s;
+    }
+
+    .button:hover {
+        background-color: #0056b3;
+    }
+
+  
+    .right img {
+        max-width: 100%; 
+        height: auto; 
+    }
+</style>
+</head>
+<body>
+    <div class="background">    
+    <div class="container">
+    <div class="header">
+        <h1>!-HealthGuardian-!</h1>
+        <h2>Symptom Recognition & Hospital Finder</h2>
+    </div>
+    <div class="content">
+        <div class="left">
+            <div id="projectDetails">
+                <h2> </h2>
+                <p>HealthGuardian is a platform that helps you recognize potential health issues early by inputting your symptoms. It also allows you to find the nearest hospitals , ensuring timely care when you need it most.</p>
+                <ul>
+                    
+                    <li>Symptom Recognition: Quickly identify possible diseases based on your symptoms.</li>
+                    
+                    <li>Hospital Finder: Locate nearby hospitals.</li>
+
+                    <li>doctor details: show doctor details for near hospitals</li>
+
+                </ul>
+            </div>
+        </div>
+        <div class="right">
+            <img src="https://cdn.dribbble.com/users/25410/screenshots/3909516/ttt-gamification.jpg" alt="image loading">
+        </div>
+    </div>
+    <div class="button-container">
+        <a href="/login" class="button">continue </a>
+    </div>
+</div>
+</div>
+</body>
+</html>
