@@ -72,7 +72,7 @@ def login():
 
 ####################################################
 
-#Rwgistration page---
+#Registration page---
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -168,7 +168,7 @@ def user_page():
         return redirect(url_for('login'))
     
 #---------------------------------------------------
-
+#show booking appointments--
 @app.route('/appointments', methods=['POST'])
 def get_appointments():
     if 'username' in session:
