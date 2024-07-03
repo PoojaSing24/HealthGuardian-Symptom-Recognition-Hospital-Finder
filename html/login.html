@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Login Form</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: sans-serif;
+            line-height: 1.5;
+            min-height: 100vh;
+            background: #f3f3f3;
+            flex-direction: column;
+            margin: 0;
+        }
+
+        .main {
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            padding: 10px 20px;
+            transition: transform 0.2s;
+            width: 500px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #4CAF50;
+        }
+
+        label {
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            text-align: left;
+            color: #555;
+            font-weight: bold;
+        }
+
+        input {
+            display: block;
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            border: none;
+            color: white;
+            cursor: pointer;
+            width: 60%;
+            font-size: 14px;
+        }
+
+        .wrap {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .submit-button {
+            background-color: #4CAF50;
+        }
+
+        .back-button {
+            background-color: #f44336; /* Red */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <h1>-HealthGuardian-</h1>
+        <h3> Login Here </h3>
+        <form action="/login" method="POST" id="loginForm">
+            <label for="username">
+                Username:
+            </label>
+            <input type="text" id="Username" name="Username" placeholder="Enter your Username" required>
+
+            <label for="password">
+                Password:
+            </label>
+            <input type="password" id="Password" name="Password" placeholder="Enter your Password" required>
+
+            <div class="wrap">
+                <button type="submit" class="submit-button">
+                    Submit
+                </button>
+            </div>
+        </form>
+        <p>Forgot your password? <a href="/reset_password">Reset Password</a></p>
+        <p>Not registered?
+            <a href="/register" style="text-decoration: none;">
+                Create an account
+            </a>
+        </p>
+        <div class="wrap">
+            <button type="button" class="back-button" onclick="goBack()">
+                Back
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html>
