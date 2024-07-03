@@ -1,0 +1,337 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HealthGuardian - Symptoms</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+        font-size: 20px;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .background {
+        background-image: url('https://wallpaperaccess.com/full/4112935.png');
+        width: 100%;
+        height: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        margin: 100px;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: row; 
+    }
+
+    .left, .right {
+        flex: 1; 
+        padding: 20px;
+    }
+
+    h1 {
+        margin-top: 0;
+        color: #333;
+    }
+
+    button {
+        padding: 5px 5px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+    img {
+        max-width: 100%; 
+        height: auto; 
+        display: block; 
+        margin: 0 auto; 
+    }
+
+    p {
+        font-size: 13px; 
+        color: #666; 
+    }
+
+    .fixed-size-img {
+        width: 400px; 
+        height: 300px; 
+        object-fit: cover; 
+    }
+
+    input[type="text"], select {
+        padding: 10px; 
+        font-size: 12px; 
+        width: 100%; 
+        margin-bottom: 10px; 
+    }
+
+
+    #symptomForm button {
+        width: auto;
+        font-size: 12px; 
+    }
+
+    .back-button-container {
+        position: absolute;
+        bottom: 140px;
+        left: 20px;
+    }
+
+    .back-button-container button {
+        width: auto; 
+    }
+
+    /* Adjust font size for selected symptoms */
+    #selectedSymptoms li {
+        font-size: 14px;
+        }
+</style>
+</head>
+<body>
+<div class="background"> 
+    <div class="container">
+        <div class="left">
+            <h1>What are your symptoms?</h1>
+            <h3>Check Your Health</h3>
+            <p>(When you type your symptoms, the disease name will be displayed.)</p>
+            <form id="symptomForm">
+                <select id="symptomsDropdown">
+                    <option value="">Select a symptom</option>
+                    <option value="Itching">Itching</option>
+                    <option value="Skin rash">Skin rash</option>
+                    <option value="Nodal skin eruptions">Nodal skin eruptions</option>
+                    <option value="Continuous sneezing">Continuous sneezing</option>
+                    <option value="Shivering">Shivering</option>
+                    <option value="Chills">Chills</option>
+                    <option value="Joint pain">Joint pain</option>
+                    <option value="Stomach pain">Stomach pain</option>
+                    <option value="Acidity">Acidity</option>
+                    <option value="Ulcers on tongue">Ulcers on tongue</option>
+                    <option value="Muscle wasting">Muscle wasting</option>
+                    <option value="Vomiting">Vomiting</option>
+                    <option value="Burning micturition">Burning micturition</option>
+                    <option value="Spotting urination">Spotting urination</option>
+                    <option value="Fatigue">Fatigue</option>
+                    <option value="Weight gain">Weight gain</option>
+                    <option value="Anxiety">Anxiety</option>
+                    <option value="Cold hands and feets">Cold hands and feets</option>
+                    <option value="Mood swings">Mood swings</option>
+                    <option value="Weight loss">Weight loss</option>
+                    <option value="Restlessness">Restlessness</option>
+                    <option value="Lethargy">Lethargy</option>
+                    <option value="Patches in throat">Patches in throat</option>
+                    <option value="Irregular sugar level">Irregular sugar level</option>
+                    <option value="Cough">Cough</option>
+                    <option value="High fever">High fever</option>
+                    <option value="Sunken eyes">Sunken eyes</option>
+                    <option value="Breathlessness">Breathlessness</option>
+                    <option value="Sweating">Sweating</option>
+                    <option value="Dehydration">Dehydration</option>
+                    <option value="Indigestion">Indigestion</option>
+                    <option value="Headache">Headache</option>
+                    <option value="Yellowish skin">Yellowish skin</option>
+                    <option value="Dark urine">Dark urine</option>
+                    <option value="Nausea">Nausea</option>
+                    <option value="Loss of appetite">Loss of appetite</option>
+                    <option value="Pain behind the eyes">Pain behind the eyes</option>
+                    <option value="Back pain">Back pain</option>
+                    <option value="Constipation">Constipation</option>
+                    <option value="Abdominal pain">Abdominal pain</option>
+                    <option value="Diarrhoea">Diarrhoea</option>
+                    <option value="Mild fever">Mild fever</option>
+                    <option value="Yellow urine">Yellow urine</option>
+                    <option value="Yellowing of eyes">Yellowing of eyes</option>
+                    <option value="Acute liver failure">Acute liver failure</option>
+                    <option value="Fluid overload">Fluid overload</option>
+                    <option value="Swelling of stomach">Swelling of stomach</option>
+                    <option value="Swelled lymph nodes">Swelled lymph nodes</option>
+                    <option value="Malaise">Malaise</option>
+                    <option value="Blurred and distorted vision">Blurred and distorted vision</option>
+                    <option value="Phlegm">Phlegm</option>
+                    <option value="Throat irritation">Throat irritation</option>
+                    <option value="Redness of eyes">Redness of eyes</option>
+                    <option value="Sinus pressure">Sinus pressure</option>
+                    <option value="Runny nose">Runny nose</option>
+                    <option value="Congestion">Congestion</option>
+                    <option value="Chest pain">Chest pain</option>
+                    <option value="Weakness in limbs">Weakness in limbs</option>
+                    <option value="Fast heart rate">Fast heart rate</option>
+                    <option value="Pain during bowel movements">Pain during bowel movements</option>
+                    <option value="Pain in anal region">Pain in anal region</option>
+                    <option value="Bloody stool">Bloody stool</option>
+                    <option value="Irritation in anus">Irritation in anus</option>
+                    <option value="Neck pain">Neck pain</option>
+                    <option value="Dizziness">Dizziness</option>
+                    <option value="Cramps">Cramps</option>
+                    <option value="Bruising">Bruising</option>
+                    <option value="Obesity">Obesity</option>
+                    <option value="Swollen legs">Swollen legs</option>
+                    <option value="Swollen blood vessels">Swollen blood vessels</option>
+                    <option value="Puffy face and eyes">Puffy face and eyes</option>
+                    <option value="Enlarged thyroid">Enlarged thyroid</option>
+                    <option value="Brittle nails">Brittle nails</option>
+                    <option value="Swollen extremeties">Swollen extremeties</option>
+                    <option value="Excessive hunger">Excessive hunger</option>
+                    <option value="Extra marital contacts">Extra marital contacts</option>
+                    <option value="Drying and tingling lips">Drying and tingling lips</option>
+                    <option value="Slurred speech">Slurred speech</option>
+                    <option value="Knee pain">Knee pain</option>
+                    <option value="Hip joint pain">Hip joint pain</option>
+                    <option value="Muscle weakness">Muscle weakness</option>
+                    <option value="Stiff neck">Stiff neck</option>
+                    <option value="Swelling joints">Swelling joints</option>
+                    <option value="Movement stiffness">Movement stiffness</option>
+                    <option value="Spinning movements">Spinning movements</option>
+                    <option value="Loss of balance">Loss of balance</option>
+                    <option value="Unsteadiness">Unsteadiness</option>
+                    <option value="Weakness of one body side">Weakness of one body side</option>
+                    <option value="Loss of smell">Loss of smell</option>
+                    <option value="Bladder discomfort">Bladder discomfort</option>
+                    <option value="Foul smell of urine">Foul smell of urine</option>
+                    <option value="Continuous feel of urine">Continuous feel of urine</option>
+                    <option value="Passage of gases">Passage of gases</option>
+                    <option value="Internal itching">Internal itching</option>
+                    <option value="Toxic look (typhos)">Toxic look (typhos)</option>
+                    <option value="Depression">Depression</option>
+                    <option value="Irritability">Irritability</option>
+                    <option value="Muscle pain">Muscle pain</option>
+                    <option value="Altered sensorium">Altered sensorium</option>
+                    <option value="Red spots over body">Red spots over body</option>
+                    <option value="Belly pain">Belly pain</option>
+                    <option value="Abnormal menstruation">Abnormal menstruation</option>
+                    <option value="Dischromic patches">Dischromic patches</option>
+                    <option value="Watering from eyes">Watering from eyes</option>
+                    <option value="Increased appetite">Increased appetite</option>
+                    <option value="Polyuria">Polyuria</option>
+                    <option value="Family history">Family history</option>
+                    <option value="Mucoid sputum">Mucoid sputum</option>
+                    <option value="Rusty sputum">Rusty sputum</option>
+                    <option value="Lack of concentration">Lack of concentration</option>
+                    <option value="Visual disturbances">Visual disturbances</option>
+                    <option value="Receiving blood transfusion">Receiving blood transfusion</option>
+                    <option value="Receiving unsterile injections">Receiving unsterile injections</option>
+                    <option value="Coma">Coma</option>
+                    <option value="Stomach bleeding">Stomach bleeding</option>
+                    <option value="Distention of abdomen">Distention of abdomen</option>
+                    <option value="History of alcohol consumption">History of alcohol consumption</option>
+                    <option value="Fluid overload.1">Fluid overload</option>
+                    <option value="Blood in sputum">Blood in sputum</option>
+                    <option value="Prominent veins on calf">Prominent veins on calf</option>
+                    <option value="Palpitations">Palpitations</option>
+                    <option value="Painful walking">Painful walking</option>
+                    <option value="Pus filled pimples">Pus filled pimples</option>
+                    <option value="Blackheads">Blackheads</option>
+                    <option value="Scurring">Scurring</option>
+                    <option value="Skin peeling">Skin peeling</option>
+                    <option value="Silver like dusting">Silver like dusting</option>
+                    <option value="Small dents in nails">Small dents in nails</option>
+                    <option value="Inflammatory nails">Inflammatory nails</option>
+                    <option value="Blister">Blister</option>
+                    <option value="Red sore around nose">Red sore around nose</option>
+                    <option value="Yellow crust ooze">Yellow crust ooze</option>
+                </select>
+                <button type="button" id="addSymptomBtn"> +</button>
+                <ul id="selectedSymptoms"></ul>
+                <button type="submit">Show disease name</button>
+                <p id="predictedDisease"></p>
+                <button type="button" id="findHospitalBtn">Show Hospitals</button>
+                <p id="errorMessage" style="color: red; margin-top: 10px;"></p> 
+            </form>
+        </div>
+        <div class="right">
+            <img src="https://images.fineartamerica.com/images-medium-large-5/2-atomic-structure-of-the-body-mehau-kulykscience-photo-library.jpg" alt="Body Image" class="fixed-size-img">
+        </div>
+    </div>
+</div>
+
+<div class="back-button-container">
+    <button type="button" id="backBtn">Back</button>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const symptomForm = document.getElementById('symptomForm');
+        const selectedSymptoms = document.getElementById('selectedSymptoms');
+        const predictedDisease = document.getElementById('predictedDisease');
+    
+        symptomForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+    
+            //selected symptoms from the list
+            const symptoms = [...selectedSymptoms.children].map(symptom => symptom.textContent.trim());
+    
+        
+        if (symptoms.length < 2) {
+            errorMessage.textContent = "Please select at least two symptoms.";
+            return;
+        }
+
+        // Clear previous error messages
+        errorMessage.textContent = "";
+
+        // AJAX request to send symptoms to Flask 
+            fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ symptoms: symptoms.join(',') }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                predictedDisease.textContent = `Predicted Disease: ${data.prediction}`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    
+        // Add symptom to the selected symptoms list
+        const addSymptomBtn = document.getElementById('addSymptomBtn');
+        addSymptomBtn.addEventListener('click', function() {
+            const selectedSymptom = document.getElementById('symptomsDropdown').value;
+            
+            // Check if the symptom is already in the list
+            const existingSymptoms = [...selectedSymptoms.children].map(symptom => symptom.textContent.trim());
+            if (selectedSymptom && !existingSymptoms.includes(selectedSymptom)) {
+                const symptomItem = document.createElement('li');
+                symptomItem.textContent = selectedSymptom;
+                selectedSymptoms.appendChild(symptomItem);
+            }
+        });
+        
+         // open index.html page
+         const backBtn = document.getElementById('backBtn');
+         backBtn.addEventListener('click', function() {
+             window.location.href = 'user_page'; 
+         });
+ 
+         // open hospital.html page
+         const findHospitalBtn = document.getElementById('findHospitalBtn');
+         findHospitalBtn.addEventListener('click', function() {
+             window.location.href = 'disease'; 
+         });
+     });
+    
+</script>
+</body>
+</html>
