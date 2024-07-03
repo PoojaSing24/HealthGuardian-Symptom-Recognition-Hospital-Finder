@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ doctor['d_name'] }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-image: url('https://static.vecteezy.com/system/resources/previews/000/219/529/original/medical-background-vector.jpg'); 
+            background-position: center; 
+            background-repeat: no-repeat; 
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center; 
+            margin: 1% auto;
+            max-width: 700px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 20px;
+            font-size: 20px;
+            position: relative; /* Added */
+        }
+        .top-left-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        .doctor-name {
+            font-size: 35px;
+            font-weight: bold;
+            color: blue;
+            margin-bottom: 0px;
+        }
+        .detail-label, .specialty-label {
+            font-weight: bold;
+            font-size: 25px;
+            text-align: left;
+            margin-bottom: 0px;
+            margin-right: 10px;
+        }
+        .doctor-details, .doctor-specialties {
+            width: 80%;
+            text-align: left;
+            margin-top: 0px;
+            margin-left: 50px;
+        }
+        .doctor-specialties ul {
+            list-style-type: none;
+            padding: 0;
+            text-align: left;
+            margin-left: 50px;
+        }
+        .doctor-specialties li {
+            padding: 8px 0;
+        }
+        hr {
+            width: 100%;
+            margin: 5px 0;
+            border: none;
+            border-top: 1px solid #0a0a0a;
+        }
+        .button-container {
+            margin-top: 1px;
+        }
+        .button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-bottom: 10px; /* Added margin */
+        }
+        .hidden-form {
+            display: none;
+            margin-top: 20px;
+        }
+        .form-label {
+            display: block;
+            text-align: left;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        .form-input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .time-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .time-input {
+            flex: 1;
+            margin: 0 5px;
+        }
+        .bottom-right-button {
+            position: absolute;
+            bottom: -60px;
+            right: 10px;
+        }
+        
+    </style>
+</head>
+<body onload="setCurrentDate()">
+    <div class="container">
+        <div class="doctor-name">{{ doctor['d_name'] }}</div>
+        <hr>
+        <div class="doctor-details">
+            <p><span class="detail-label">Doctor ID:</span> {{ doctor['d_id'] }}</p>
+            <p><span class="detail-label">Name:</span> {{ doctor['d_name'] }}</p>
+            <p><span class="detail-label">Qualification:</span> {{ doctor['Qualification'] }}</p>
+            <p><span class="detail-label">Phone:</span> {{ doctor['contact_info'] }}</p>
+            <p><span class="detail-label">Hospital ID:</span> {{ doctor['hospital_id'] }}</p>
+        </div>
+        <div class="doctor-specialties">
+            <p><span class="specialty-label">Specialty:</span></p>
+            <ul>
+                {% for specialty in specialties %}
+                <li>{{ specialty }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="button-container">
+            <button class="button" onclick="showAppointmentForm()">Book My Appointment</button>
+            <button class="button" onclick="showOtherAppointmentForm()">Appointment for Other</button>
+        </div>
+        <div id="appointment-form" class="hidden-form">
+            <form action="/book_appointment/{{ doctor['d_name'] }}" method="POST">
+                <label for="date" class="form-label">Appointment Date:</label>
+                <input type="date" id="date" name="date" class="form-input" required>
+                <div class="time-row">
+                    <label for="hour" class="form-label time-input">Hour:</label>
+                    <select id="hour" name="hour" class="form-input time-input" required>
+                        {% for hour in range(1, 13) %}
+                        <option value="{{ hour }}">{{ hour }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="minute" class="form-label time-input">Minute:</label>
+                    <select id="minute" name="minute" class="form-input time-input" required>
+                        <option value="00">00</option>
+                        <option value="15">15</option>
+                        <option value="30">30</option>
+                        <option value="45">45</option>
+                    </select>
+                    <label for="time_period" class="form-label time-input">AM/PM:</label>
+                    <select id="time_period" name="time_period" class="form-input time-input" required>
+                        <option value="AM">AM</option>
+                        <option value="PM">PM</option>
+                    </select>
+                </div>
+                <input type="submit" value="OK" class="button">
+            </form>
+        </div>
+        <div id="other-appointment-form" class="hidden-form">
+            <form action="/book_other_appointment" method="POST">
+                <input type="hidden" name="doctor_name" value="{{ doctor['d_name'] }}">
+                <label for="other_patient_name" class="form-label">Other Patient Name:</label>
+                <input type="text" id="other_patient_name" name="other_patient_name" class="form-input" required>
+                <label for="other_gender" class="form-label">Gender:</label>
+                <select id="other_gender" name="other_gender" class="form-input" required>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+                <label for="other_age" class="form-label">Age:</label>
+                <input type="number" id="other_age" name="other_age" class="form-input" required>
+                <label for="other_email" class="form-label">Email:</label>
+                <input type="email" id="other_email" name="other_email" class="form-input" required>
+                <label for="other_date" class="form-label">Appointment Date:</label>
+                <input type="date" id="other_date" name="other_date" class="form-input" required>
+                <div class="time-row">
+                    <label for="other_hour" class="form-label time-input">Hour:</label>
+                    <select id="other_hour" name="other_hour" class="form-input time-input" required>
+                        {% for hour in range(1, 13) %}
+                        <option value="{{ hour }}">{{ hour }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="other_minute" class="form-label time-input">Minute:</label>
+                    <select id="other_minute" name="other_minute" class="form-input time-input" required>
+                        <option value="00">00</option>
+                        <option value="15">15</option>
+                        <option value="30">30</option>
+                        <option value="45">45</option>
+                    </select>
+                    <label for="other_time_period" class="form-label time-input">AM/PM:</label>
+                    <select id="other_time_period" name="other_time_period" class="form-input time-input" required>
+                        <option value="AM">AM</option>
+                        <option value="PM">PM</option>
+                    </select>
+                </div>
+                <input type="submit" value="OK" class="button">
+            </form>
+        </div>
+        <button class="bottom-right-button button" onclick="location.href='/'">Go to Homepage</button>
+
+    </div>
+    <script>
+        function showAppointmentForm() {
+            document.getElementById('appointment-form').style.display = 'block';
+            document.getElementById('other-appointment-form').style.display = 'none'; // Hide other form
+        }
+
+        function showOtherAppointmentForm() {
+            document.getElementById('other-appointment-form').style.display = 'block';
+            document.getElementById('appointment-form').style.display = 'none'; // Hide main form
+        }
+
+        function setCurrentDate() {
+            const today = new Date();
+            const dateInput = document.getElementById('date');
+            const otherDateInput = document.getElementById('other_date');
+            
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+            const day = String(today.getDate()).padStart(2, '0');
+
+            const currentDate = `${year}-${month}-${day}`;
+            if (dateInput) dateInput.value = currentDate;
+            if (otherDateInput) otherDateInput.value = currentDate;
+        }
+    </script>
+</body>
+</html>
+
+<!--*******************************************-->
+
