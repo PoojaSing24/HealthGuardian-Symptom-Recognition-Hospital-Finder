@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hospital Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .background {
+            background-image: url('https://wallpapers.com/images/hd/hospital-background-iot1wvj2hu9ybta1.jpg'); /* Replace with your image URL */
+            height: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .header {
+            padding: 10px;
+            background-color: #f8f8f8;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hospital-name {
+            font-size: 30px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            color: green;
+        }
+
+        .star-symbol {
+            color: black;
+            margin-right: 5px;
+        }
+
+        .hospital-address, .hospital-contact {
+            font-size: 10px; 
+            color: #555;
+            margin-top: 5px;
+        }
+
+        .details-container {
+            display: flex;
+            justify-content: space-around; 
+            width: 80%; 
+            margin: 0 auto; 
+        }
+
+        .doctor-details, .specialty-details {
+            flex: 1;
+            padding: 10px;
+        }
+
+        .doctor-details h2, .specialty-details h2 {
+            margin-bottom: 10px;
+        }
+
+        .doctor-details ul, .specialty-details ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .doctor-details ul li, .specialty-details ul li {
+            background-color: #f9f9f9;
+            margin-bottom: 5px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            cursor: pointer; 
+        }
+
+        .buttons button:hover {
+            background-color: #45a049;
+        }
+
+        .back-button-container {
+            position: absolute;
+            top: 20px; 
+            left: 20px;
+        }
+
+        .back-button-container button {
+            width: auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="background"> 
+    <div class="back-button-container">
+        <button type="button" id="backBtn">Back</button>
+    </div>
+    <div class="header">
+        <span class="hospital-name">
+            <span class="star-symbol">&#9733;</span> {{ hospital.h_name }}
+        </span>
+        <div class="hospital-address">
+            {{ hospital.h_location }}
+        </div>
+        <div class="hospital-contact">
+            {{ hospital.contact }}
+        </div>
+    </div>
+
+    <div class="details-container">
+        <div class="doctor-details">
+            <h2>Doctors</h2>
+            <ul id="doctorList">
+                {% for doctor in doctors %}
+                    <li onclick="openDoctorBooking('{{ doctor.d_name }}')">
+                        <strong></strong> {{ doctor.d_name }}<br>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="specialty-details">
+            <h2>Specialties</h2>
+            <ul id="specialtyList">
+                {% for specialty in specility %}
+                    <li>{{ specialty.specialty_name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    </div>
+
+    <!--  open doctor booking page -->
+    <script>
+        function openDoctorBooking(doctorName) {
+            window.location.href = `/doctor_book/${doctorName}`;
+        }
+
+        // to back button open hospital.html page
+        document.getElementById("backBtn").addEventListener("click", function() {
+            window.location.href = "disease";
+        });
+    </script>
+</body>
+</html>
